@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="Container-Monitoring">
+      <div class="card-group">
+        <div class="card">
+          <img class="card-img-top" [src]="cpu.CpuImage" alt="Card image cap" />
+          <div class="card-body">
+            <h5 class="card-title">{{ cpu.CpuName }} : {{ cpu.CpuRate }} %</h5>
+          </div>
+        </div>
+        <div class="card">
+          <img class="card-img-top" [src]="ram.RamImage" alt="Card image cap" />
+          <div class="card-body">
+            <h5 class="card-title">{{ ram.RamName }} : {{ ram.RamRate }} %</h5>
+          </div>
+        </div>
+        <div class="card">
+          <img
+            class="card-img-top"
+            [src]="disque.DisqueImage"
+            alt="Card image cap"
+          />
+          <div class="card-body">
+            <h5 class="card-title">
+              {{ disque.DisqueName }} : {{ disque.DisqueRate }} %
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
