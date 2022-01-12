@@ -1,10 +1,10 @@
-import { CPU } from './../../Model/CPU';
-import { Disque } from './../../Model/Disque';
 import { DisqueService } from './../../Services/DisqueServices/disque.mock.service';
 import { RamService } from './../../Services/RamServices/ram.mock.service';
 import { CPUService } from './../../Services/CPUServices/cpu.mock.service';
 import { Component, OnInit } from '@angular/core';
-import { Ram } from 'src/app/Model/Ram';
+import { interval, Observable, of } from 'rxjs';
+import { ChartsService } from 'src/app/Services/charts.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-monitoring-details',
@@ -12,36 +12,36 @@ import { Ram } from 'src/app/Model/Ram';
   styleUrls: ['./monitoring-details.component.css'],
 })
 export class MonitoringDetailsComponent implements OnInit {
-  DataArray = [];
-  disque: Disque = {
-    DisqueName: '',
-    DisqueImage: '',
-    DisqueRate: 0,
-    MaxCapacity: 0,
+  title = 'streaming-data';
+  traceram$: Observable<any> = of(null);
+  layout = {
+    yaxis: {
+      range: [0, 100],
+    },
   };
+  traceDisque$: Observable<any> = of(null);
 
-  ram: Ram = {
-    RamName: '',
-    RamImage: '',
-    RamRate: 0,
-    MaxCapacity: 0,
-  };
-  cpu: CPU = {
-    CpuName: '',
-    CpuImage: '',
-    CpuRate: 0,
-  };
   constructor(
     private cpuService: CPUService,
     private ramService: RamService,
-    private disqueService: DisqueService
+    private disqueService: DisqueService,
+    private chartService: ChartsService
   ) {}
 
   ngOnInit(): void {
-    this.disqueService.getDisque().subscribe((data) => (this.disque = data));
-    this.cpuService.getCPU().subscribe((data) => {
-      this.cpu = data;
+    const triggEverySec$ = interval(1000);
+    triggEverySec$.subscribe(() => {
+      this.disqueService.getDisque().subscribe((data) => {
+        this.traceDisque$ = this.chartService.connect(data.DisqueRate).pipe(
+          map((data) => {
+            return {
+              ...data,
+              type: 'scatter',
+              name: 'DISQUE',
+            };
+          })
+        );
+      });
     });
-    this.ramService.getRam().subscribe((data) => (this.ram = data));
   }
 }

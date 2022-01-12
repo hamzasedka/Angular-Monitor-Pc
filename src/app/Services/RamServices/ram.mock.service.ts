@@ -14,8 +14,7 @@ export class RamService implements IRamService {
       RamRate:
         Math.floor(Math.random() * (Math.floor(100) - Math.ceil(0) + 1)) +
         Math.ceil(0),
-      RamImage:
-        'https://media.istockphoto.com/vectors/computer-random-access-memory-vector-id470367658',
+      RamImage: '',
       RamName: 'RAM',
     });
   }

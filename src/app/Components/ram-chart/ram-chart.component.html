@@ -1,0 +1,3 @@
+<div *ngIf="trace$ | async as trace">
+  <plotly-plot [data]="[trace]" [layout]="layout"> </plotly-plot>
+</div>
